@@ -1,4 +1,10 @@
 const http = require("http");
+const students = {
+  name: "Abhishek Kumar",
+  class: "FD",
+  rollNo: 241500047,
+  course: "BTech CS Full Stack Development",
+};
 const server = http.createServer((req, res) => {
   const method = req.method;
   const url = req.url;
@@ -7,26 +13,23 @@ const server = http.createServer((req, res) => {
     res.end("Welcome to the Home Page");
   }
   else if (method === "GET" && url === "/users") {
-    const users = { users: ["Alice", "Bob", "Charlie"] };
-
     res.writeHead(200, { "Content-Type": "application/json" });
-    res.end(JSON.stringify(users));
+    res.end(JSON.stringify(students));
   }
   else if (method === "POST" && url === "/users") {
     let body = "";
-
     req.on("data", (chunk) => {
       body += chunk;
     });
-
     req.on("end", () => {
       const parsedBody = JSON.parse(body);
 
       res.writeHead(201, { "Content-Type": "application/json" });
+
       res.end(
         JSON.stringify({
           message: "User created successfully",
-          data: parsedBody,
+          receivedData: parsedBody,
         })
       );
     });
